@@ -1,4 +1,6 @@
 import React from 'react';
+import { register } from '@/actions/register';
+
 
 export default function RegisterPage() {
   return (
@@ -6,20 +8,20 @@ export default function RegisterPage() {
 
       <h1 className='text-3xl font-semibold text-start'>Register</h1>
 
-      <form className='flex flex-col gap-4'>
-        
+      <form className='flex flex-col gap-4' action={register}>
+
         <div className='w-full flex flex-col justify-start gap-2'>
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input name='email' type='email' className='border border-solid border-slate-900 rounded-xl px-3 py-2' />
         </div>
 
         <div className='w-full flex flex-col justify-start gap-2'>
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input name='password' type='password' className='border border-solid border-slate-900 rounded-xl px-3 py-2' />
         </div>
 
         <div className='w-full flex flex-col justify-start gap-2'>
-          <label for="cnfPassword">Confirm Password</label>
+          <label htmlFor="cnfPassword">Confirm Password</label>
           <input name='cnfPassword' type='password' className='border border-solid border-slate-900 rounded-xl px-3 py-2' />
         </div>
 

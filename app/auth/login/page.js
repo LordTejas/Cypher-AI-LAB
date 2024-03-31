@@ -1,4 +1,5 @@
 import React from 'react';
+import { login } from "@/actions/login";
 
 export default function LoginPage() {
   return (
@@ -6,15 +7,15 @@ export default function LoginPage() {
 
       <h1 className='text-3xl font-semibold text-start'>Login</h1>
 
-      <form className='flex flex-col gap-4'>
+      <form className='flex flex-col gap-4' action={login}>
 
         <div className='w-full flex flex-col justify-start gap-2'>
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input name='email' type='email' className='border border-solid border-slate-900 rounded-xl px-3 py-2' />
         </div>
 
         <div className='w-full flex flex-col justify-start gap-2'>
-          <label for="password">Password</label>
+          <label htmlFor="password">Password</label>
           <input name='password' type='password' className='border border-solid border-slate-900 rounded-xl px-3 py-2' />
         </div>
 
