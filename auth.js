@@ -1,20 +1,33 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials";
+import prisma from "@/lib/prisma";
+import { verifyPassword } from "@/lib/password";
 
 const credentialsConfig = CredentialsProvider({
   name: "Credentials",
   credentials: {
-    email: { label: "Email", type: "email"},
+    email: { label: "Email", type: "email" },
     password: { label: "Password", type: "password" },
   },
   async authorize(credentials) {
     console.log(credentials)
-    if (credentials.email === "tejas@gmail.com" && credentials.password === "2") {
-      return {
-        name: "Tejas",
-      };
-    } else return null;
+
+    const user = await prisma.users.findFirst({
+      where: {
+        email: credentials.email,
+      }
+    });
+
+    // Compare the password from the form with the hashed password
+    const isValid = verifyPassword(credentials.password, user.password);
+
+    if (isValid) {
+      return user;
+    } else {
+      return null;
+    }
+
   },
 });
 
@@ -24,7 +37,7 @@ const config = {
   callbacks: {
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
-      if (pathname === "/middleware-page") return !!auth;
+      if (pathname === "/") return !!auth;
       return true;
     },
   },

@@ -2,14 +2,17 @@
 
 import { signIn } from "@/auth";
 
-export const login = (formData) => {
+export const login = async (formData) => {
   const email = formData.get('email');
   const password = formData.get('password');
   
-  signIn("credentials", {
+   const redirectUrl = await signIn("credentials", {
     email,
     password,
-    redirect: false
+    redirect: false,
+    redirectTo: '/'
   });
+
+  return redirectUrl;
 }
 

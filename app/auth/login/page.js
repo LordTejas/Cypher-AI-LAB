@@ -1,13 +1,37 @@
+'use client'
+
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { login } from "@/actions/login";
 
 export default function LoginPage() {
+
+  const router = useRouter();
+
+  const handleLogin = async (e) => {
+    try {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(e.target);
+
+      // Login user
+      const redirectUrl = await login(formData);
+
+      // Redirect to home page
+      router.push(redirectUrl);
+    } catch (error) {
+      console.error(error.message);
+      alert('An error occurred while logging in');
+    }
+  }
+
   return (
     <div className='w-full h-full bg-white shadow-sm rounded-xl p-6 flex flex-col justify-start gap-[12px]'>
 
       <h1 className='text-3xl font-semibold text-start'>Login</h1>
 
-      <form className='flex flex-col gap-4' action={login}>
+      <form className='flex flex-col gap-4' onSubmit={handleLogin}>
 
         <div className='w-full flex flex-col justify-start gap-2'>
           <label htmlFor="email">Email</label>
@@ -19,7 +43,12 @@ export default function LoginPage() {
           <input name='password' type='password' className='border border-solid border-slate-900 rounded-xl px-3 py-2' />
         </div>
 
-        <button className='bg-slate-900 text-white rounded-lg py-2 hover:scale-[1.02] active:scale-[0.98] transition-all'>Login</button>
+        <button
+          type='submit'
+          className='bg-slate-900 text-white rounded-lg py-2 hover:scale-[1.02] active:scale-[0.98] transition-all'
+        >
+          Login
+        </button>
 
         <div>
           Don&apos;t have an account? <a href='/auth/register' className='text-slate-900 hover:underline'>Register</a>
