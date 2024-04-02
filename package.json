@@ -14,11 +14,16 @@
     "@prisma/client": "^5.11.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "framer-motion": "^11.0.24",
+    "immer": "^10.0.4",
+    "lucide-react": "^0.364.0",
     "nanoid": "^5.0.6",
     "next": "14.1.4",
     "next-auth": "^5.0.0-beta.16",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

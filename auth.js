@@ -37,7 +37,7 @@ const config = {
   callbacks: {
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
-      if (pathname === "/") return !!auth;
+      if (pathname === "/dashboard") return !!auth;
       return true;
     },
   },

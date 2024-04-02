@@ -1,15 +1,26 @@
 'use client';
-import { useSession } from "next-auth/react";
 
+
+import { useSession } from "next-auth/react";
+import SideBar from "@/app/_components/SideBar/SideBar";
 
 export default function Home() {
   
   const session = useSession();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1>Hello Cypher</h1>
-      {JSON.stringify(session, null, 2)}
+    <main className="h-screen w-screen grid grid-cols-5">
+
+      <div className="col-span-1 h-full">
+      <SideBar />       
+      </div>
+
+      <div className="col-span-4 h-full bg-neutral-100 flex flex-col justify-between items-center">
+        <h1>Dashboard</h1>
+        <p>Welcome to the dashboard</p>
+        <p>Session: {JSON.stringify(session)}</p>
+      </div>
+
     </main>
   );
 }
