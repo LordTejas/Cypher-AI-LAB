@@ -11,7 +11,12 @@ export default function Layout({ children }) {
 
   // If session is loading, display loading message
   if (status === "loading") {
-    return <p>Loading...</p>
+    return (
+      <div className="h-screen w-screen flex justify-center items-center">
+        <div className="animate-spin w-6 h-6 border-2 border-solid rounded-full border-slate-300 border-r-slate-900">
+        </div>
+      </div>
+    )
   }
 
   // If no session exists, display access denied message

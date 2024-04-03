@@ -1,5 +1,7 @@
 "use server";
 
+import prisma from "@/lib/prisma";
+
 export const register = async (formData) => {
   const email = formData.get('email');
   const password = formData.get('password');

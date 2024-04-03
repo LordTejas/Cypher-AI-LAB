@@ -4,29 +4,11 @@ import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useSettingsStore } from '@/app/_zustand/settings.zustand'
 import { getUserByEmail, updateUserByEmail } from '@/actions/users'
+import Input from '@/app/_components/Input'
+import Button from '@/app/_components/Button'
 
-const TextInput = ({ name, label, placeholder, value, onChange, required, readOnly }) => {
-  return (
-    <div className='w-full'>
-      <label htmlFor={name} className="block ml-1 mb-2 text-sm font-medium text-gray-900 dark:text-white">{label}</label>
-      <input type="text" id={name} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={placeholder} value={value} onChange={onChange} required={required} readOnly={readOnly} disabled={readOnly} />
-    </div>
-  )
-}
 
-const Button  = ({ children, onClick, background, color, disabled }) => {
-  return (
-    <button
-      type='button'
-      className={`${background} hover:${background}/20 ${color} font-medium py-2 px-5 rounded-lg focus:outline-none hover:scale-[1.02] focus:scale-[0.98] transition-all`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      {children}
-    </button>
-  )
 
-}
 
 const Page = () => {
 
@@ -64,7 +46,7 @@ const Page = () => {
   const saveProfileData = async () => {
     setLoading(true)
     try {
-      
+
       const data = {
         username: profile?.username,
         image: profile?.image,
@@ -105,7 +87,7 @@ const Page = () => {
           </div>
 
           <div className='col-span-4'>
-            <TextInput
+            <Input
               name='image'
               label='Image'
               placeholder='https://placehold.co/100x100'
@@ -119,7 +101,7 @@ const Page = () => {
         <div className='col-span-4'></div>
 
         <div className='col-span-4'>
-          <TextInput
+          <Input
             name='username'
             label='Username'
             placeholder='Username'
@@ -129,7 +111,7 @@ const Page = () => {
         </div>
 
         <div className='col-span-4'>
-          <TextInput
+          <Input
             name='email'
             label='Email'
             placeholder='Email'
@@ -140,23 +122,21 @@ const Page = () => {
       </div>
 
       <div className='flex justify-start items-center gap-2'>
-        <Button 
-        background={'bg-neutral-300'}
-        color={'text-neutral-900'}
-        onClick={fetchProfileData}
-        disabled={loading}
+        <Button
+          color='hover:bg-neutral-300 text-black'
+          onClick={fetchProfileData}
+          disabled={loading}
         >
           Cancel
-          </Button>
+        </Button>
 
-        <Button 
-        background={'bg-slate-950'} 
-        color={'text-white'}
-        onClick={saveProfileData}
-        disabled={loading}
+        <Button
+          color='bg-slate-950 hover:bg-slate-700 text-white'
+          onClick={saveProfileData}
+          disabled={loading}
         >
           Save Profile
-          </Button>
+        </Button>
       </div>
 
     </main>
