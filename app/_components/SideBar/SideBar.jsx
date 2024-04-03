@@ -20,7 +20,7 @@ const SideBar = () => {
     {
       name: 'Correct Grammer',
       icon: BookA,
-      path: '#',
+      path: '/grammer',
       color: 'text-yellow-500'
     },
     {

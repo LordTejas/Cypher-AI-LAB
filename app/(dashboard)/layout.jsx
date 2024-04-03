@@ -26,7 +26,7 @@ export default function Layout({ children }) {
   }
 
   return (
-    <main className="h-screen w-screen grid grid-cols-5">
+    <main className="h-screen w-screen grid grid-cols-5 overflow-hidden">
 
       <div className="col-span-1 h-full">
         <SideBar />
@@ -34,7 +34,6 @@ export default function Layout({ children }) {
 
       <div className='col-span-4 h-full bg-neutral-100 flex flex-col justify-between items-center'>
         {children}
-        <p>Session: {JSON.stringify(session)}</p>
       </div>
 
     </main>
