@@ -4,13 +4,18 @@ import { useState, Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import TextArea from '@/app/_components/TextArea'
 import { ChevronsUpDown, Check } from 'lucide-react'
+import Button from '@/app/_components/Button'
+
+import { correctGrammar } from '@/actions/grammar'
 
 const Page = () => {
 
   const [data, setData] = useState({
-    textContent: '',
+    textInput: '',
+    textOutput: '',
     tone: 'NORMAL',
   })
+  const [loading, setLoading] = useState(false)
 
   const TONE_OPTIONS = [
     'Casual',
@@ -29,6 +34,18 @@ const Page = () => {
     }))
   }
 
+  const handleGenerateGrammer = async () => {
+    setLoading(true)
+    try {
+      const res = await correctGrammar(data.textInput, data.tone)
+      updateData('textOutput', res)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <main className='w-full h-full max-h-screen bg-white flex flex-col justify-start gap-4 p-8 select-none overflow-hidden'>
 
@@ -42,10 +59,12 @@ const Page = () => {
           type='text'
           rows={10}
           placeholder='Enter Text Context'
-          value={data?.textContent}
-          onChange={e => updateData('textContent', e.target.value)}
+          value={data?.textInput}
+          onChange={e => updateData('textInput', e.target.value)}
         />
       </div>
+
+      <div className='flex justify-between items-center'>
 
       {/* Tone Selecter */}
       <div className='w-[26ch] relative'>
@@ -67,7 +86,7 @@ const Page = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className='relative max-h-[40vh] overflow-auto flex flex-col justify-start rounded-md bg-slate-100 py-2'>
+            <Listbox.Options className='absolute max-h-[40vh] overflow-auto flex flex-col justify-start rounded-md bg-slate-100 py-2'>
               {TONE_OPTIONS.map((option, index) => (
                 <Listbox.Option
                   key={index}
@@ -83,6 +102,24 @@ const Page = () => {
 
         </Listbox>
       </div>
+
+        <Button
+          color='bg-purple-700 hover:bg-purple-800 text-white font-medium'
+          onClick={handleGenerateGrammer}
+          loading={loading}
+        >
+          Generate
+        </Button>
+      </div>
+
+      <TextArea
+        type='text'
+        rows={10}
+        placeholder='Result will be displayed here...'
+        value={data?.textOutput}
+        readOnly
+      />
+
 
     </main>
   )
