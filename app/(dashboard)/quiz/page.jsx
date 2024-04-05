@@ -93,7 +93,7 @@ const Page = () => {
     <main className='w-full h-full max-h-screen bg-white flex flex-col justify-start gap-4 p-8 select-none overflow-auto'>
 
       {/* Heading */}
-      <h1 className='w-full text-3xl font-semibold'>Grammer AI</h1>
+      <h1 className='w-full text-3xl font-semibold'>Quiz AI</h1>
 
       {/* Text Box */}
       <div className='w-full flex flex-col gap-2'>

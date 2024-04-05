@@ -29,6 +29,7 @@ export const generateMcqQuiz = async (textContent) => {
     temperature: 1,
     maxRetries: 2,
     onFailedAttempt: (error) => console.log(error),
+    cache: false // Disable cache for this function
   })
   .bind({
     functions: [

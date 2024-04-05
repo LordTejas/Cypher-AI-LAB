@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import TextArea from '@/app/_components/TextArea'
 import { ChevronsUpDown, Check } from 'lucide-react'
@@ -39,12 +39,36 @@ const Page = () => {
     try {
       const res = await correctGrammar(data.textInput, data.tone)
       updateData('textOutput', res)
+
+      // Save result to local storage
+      localStorage.setItem('grammerTextInput', data.textInput)
+      localStorage.setItem('grammerTextOutput', res)
     } catch (error) {
       console.error(error)
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+
+    /**
+    * Fetch previous result from local storage (keeps persisting data on page refresh)
+    */
+    const fetchPrevResult = () => {
+      const grammerTextInput = localStorage.getItem('grammerTextInput')
+      const grammerTextOutput = localStorage.getItem('grammerTextOutput')
+
+      if (grammerTextInput && grammerTextOutput) {
+        setData({
+          textInput: grammerTextInput,
+          textOutput: grammerTextOutput
+        })
+      }
+    }
+
+    fetchPrevResult()
+  }, [])
 
   return (
     <main className='w-full h-full max-h-screen bg-white flex flex-col justify-start gap-4 p-8 select-none overflow-hidden'>
@@ -66,42 +90,42 @@ const Page = () => {
 
       <div className='flex justify-between items-center'>
 
-      {/* Tone Selecter */}
-      <div className='w-[26ch] relative'>
-        <Listbox
-          as={Fragment}
-          value={data?.tone}
-          onChange={value => updateData('tone', value)}
-        >
-          <Listbox.Button
-            className='w-full whitespace-nowrap text-md font-medium bg-slate-950 text-white flex justify-between items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white cursor-pointer mb-1'
-          >
-            {data?.tone}
-            <ChevronsUpDown size={24} strokeWidth={1.25} className='text-white' />
-          </Listbox.Button>
-
-          <Transition
+        {/* Tone Selecter */}
+        <div className='w-[26ch] relative'>
+          <Listbox
             as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
+            value={data?.tone}
+            onChange={value => updateData('tone', value)}
           >
-            <Listbox.Options className='absolute max-h-[40vh] overflow-auto flex flex-col justify-start rounded-md bg-slate-100 py-2'>
-              {TONE_OPTIONS.map((option, index) => (
-                <Listbox.Option
-                  key={index}
-                  value={option}
-                  className={`hover:bg-slate-300 text-black font-medium flex justify-between items-center px-3 py-2`}
-                >
-                  {option}
-                  {data?.tone === option && <Check size={24} strokeWidth={1.25} className='text-black' />}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
+            <Listbox.Button
+              className='w-full whitespace-nowrap text-md font-medium bg-slate-950 text-white flex justify-between items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white cursor-pointer mb-1'
+            >
+              {data?.tone}
+              <ChevronsUpDown size={24} strokeWidth={1.25} className='text-white' />
+            </Listbox.Button>
 
-        </Listbox>
-      </div>
+            <Transition
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className='absolute max-h-[40vh] overflow-auto flex flex-col justify-start rounded-md bg-slate-100 py-2'>
+                {TONE_OPTIONS.map((option, index) => (
+                  <Listbox.Option
+                    key={index}
+                    value={option}
+                    className={`hover:bg-slate-300 text-black font-medium flex justify-between items-center px-3 py-2`}
+                  >
+                    {option}
+                    {data?.tone === option && <Check size={24} strokeWidth={1.25} className='text-black' />}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+
+          </Listbox>
+        </div>
 
         <Button
           color='bg-purple-700 hover:bg-purple-800 text-white font-medium'

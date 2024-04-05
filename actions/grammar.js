@@ -25,6 +25,7 @@ export const correctGrammar = async (text, tone) => {
     temperature: 0.5,
     maxRetries: 2,
     onFailedAttempt: (error) => console.log(error),
+    cache: false // Disable cache for this function
   })
   .bind({
     functions: [
