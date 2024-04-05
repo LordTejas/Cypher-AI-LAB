@@ -19,15 +19,18 @@ const credentialsConfig = CredentialsProvider({
       }
     });
 
+    console.log(user)
+
     // Compare the password from the form with the hashed password
     const isValid = verifyPassword(credentials.password, user.password);
 
+    console.log(isValid)
+
     if (isValid) {
       return user;
-    } else {
-      return null;
-    }
+    } 
 
+    return null
   },
 });
 
@@ -37,6 +40,9 @@ const config = {
   callbacks: {
     authorized({ request, auth }) {
       const { pathname } = request.nextUrl;
+     
+      console.log("pathname", pathname, !!auth)
+      
       if (pathname === "/dashboard") return !!auth;
       return true;
     },

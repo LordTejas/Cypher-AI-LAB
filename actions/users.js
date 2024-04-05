@@ -29,7 +29,7 @@ export const getUserByEmail = async (email) => {
     return user
 
   } catch (error) {
-    console.error(error.message)
+    console.error("getUserByEmail - ", error.message)
     return null
   }
 }

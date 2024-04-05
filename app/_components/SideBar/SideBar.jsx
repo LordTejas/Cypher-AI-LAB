@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { Home, BookA, Settings } from 'lucide-react'
+import { Home, BookA, Settings, GraduationCap } from 'lucide-react'
 
 import PlanCard from './PlanCard'
 
@@ -16,6 +16,12 @@ const SideBar = () => {
       icon: Home,
       path: '/dashboard',
       color: 'text-sky-500'
+    },
+    {
+      name: 'Quiz AI',
+      icon: GraduationCap,
+      path: '/quiz',
+      color: 'text-purple-500'
     },
     {
       name: 'Correct Grammer',

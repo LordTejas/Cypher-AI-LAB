@@ -1,13 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useSettingsStore } from '@/app/_zustand/settings.zustand'
 import { getUserByEmail, updateUserByEmail } from '@/actions/users'
 import Input from '@/app/_components/Input'
 import Button from '@/app/_components/Button'
-
-
 
 
 const Page = () => {
@@ -40,8 +38,12 @@ const Page = () => {
   }
 
   useEffect(() => {
-    fetchProfileData()
-  }, [])
+    if (status === 'authenticated') {
+      if (session?.user?.email) {
+        fetchProfileData()
+      }
+    }
+  }, [status, session])
 
   const saveProfileData = async () => {
     setLoading(true)
@@ -136,6 +138,19 @@ const Page = () => {
           disabled={loading}
         >
           Save Profile
+        </Button>
+      </div>
+
+
+      <h2 className='w-full text-2xl font-semibold border-b border-solid border-neutral-300'>Account</h2>
+
+      <div>
+        <Button
+          color='bg-red-700 hover:bg-red-800 text-white'
+          onClick={signOut}
+          disabled={loading}
+        >
+          Sign Out
         </Button>
       </div>
 
