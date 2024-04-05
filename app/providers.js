@@ -5,11 +5,11 @@ import { SnackbarProvider } from "notistack";
 
 function Providers({ children }) {
 
-  return <SnackbarProvider>
-    <SessionProvider>
+  return <SessionProvider>
+    <SnackbarProvider preventDuplicate>
       {children}
-    </SessionProvider>
-  </SnackbarProvider>
+    </SnackbarProvider>
+  </SessionProvider>
 }
 
 export default Providers;

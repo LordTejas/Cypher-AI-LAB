@@ -12,7 +12,16 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Get form data
     const formData = new FormData(e.target);
+
+    // If password and confirm password do not match
+    if (formData.get('password') !== formData.get('cnfPassword')) {
+      enqueueSnackbar('Passwords do not match!', { variant: 'error' });
+      return;
+    }
+
     const response = await register(formData);
 
     if (response) {

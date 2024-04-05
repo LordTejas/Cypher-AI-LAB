@@ -21,12 +21,6 @@ export default function Layout({ children }) {
     )
   }
 
-  // If no session exists, display access denied message
-  if (status === "unauthenticated") {
-    enqueueSnackbar("Access Denied! Please login to continue.", { variant: "error" })
-    router.push("/auth/login")
-  }
-
   return (
     <main className="h-screen w-screen grid grid-cols-5 overflow-hidden">
 

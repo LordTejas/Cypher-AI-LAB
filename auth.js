@@ -19,7 +19,11 @@ const credentialsConfig = CredentialsProvider({
       }
     });
 
-    console.log(user)
+    console.log("user", user)
+
+    if (!user) {
+      return null;
+    }
 
     // Compare the password from the form with the hashed password
     const isValid = verifyPassword(credentials.password, user.password);
@@ -44,6 +48,7 @@ const config = {
       console.log("pathname", pathname, !!auth)
       
       if (pathname === "/dashboard") return !!auth;
+      
       return true;
     },
   },

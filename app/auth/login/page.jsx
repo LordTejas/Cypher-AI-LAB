@@ -20,11 +20,15 @@ export default function LoginPage() {
       // Login user
       const redirectUrl = await login(formData);
 
+      if (!redirectUrl) {
+        throw new Error('Login failed!');
+      }
+
       // Show success message
       enqueueSnackbar('Logged in successfully!', { variant: 'success' });
 
       // Redirect to home page
-      router.push(redirectUrl);
+      router.push('/');
     } catch (error) {
       console.error(error.message);
       enqueueSnackbar('Login failed!', { variant: 'error' });
