@@ -4,12 +4,13 @@ import { useState, useEffect } from 'react'
 import TextArea from '@/app/_components/TextArea'
 import Button from '@/app/_components/Button'
 import { Tab } from '@headlessui/react'
-
+import { useSnackbar } from 'notistack'
 
 import { generateMcqQuiz } from '@/actions/quiz'
 
 const Page = () => {
 
+  const { enqueueSnackbar } = useSnackbar()
   const [data, setData] = useState({
     textInput: '',
     textOutput: '',
@@ -36,6 +37,8 @@ const Page = () => {
           textInput: quizTextInput,
           textOutput: quizTextOutput
         })
+
+        enqueueSnackbar('Previous result loaded!', { variant: 'info' })
       }
     }
 
@@ -44,8 +47,13 @@ const Page = () => {
 
   const OutputTab = ({ children, selected, onClick }) => {
     return (
-      <Tab className={`rounded-lg px-3 py-2 transition-all ease-in-out ${selected ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'hover:bg-neutral-200 text-black'}`} onClick={onClick}>
-        {children}
+      <Tab>
+        <Button
+          color={`${selected ? 'bg-purple-600 hover:bg-purple-700 text-white' : 'hover:bg-neutral-200 text-black'}`}
+          onClick={onClick}
+        >
+          {children}
+        </Button>
       </Tab>
     )
   }
@@ -69,6 +77,7 @@ const Page = () => {
 
     } catch (error) {
       console.error(error)
+      enqueueSnackbar('Something went wrong!', { variant: 'error' })
     } finally {
       setLoading(false)
     }
@@ -107,25 +116,28 @@ const Page = () => {
         />
       </div>
 
-      <div className='flex justify-between items-center'>
-
-        <Button
-          color='bg-purple-700 hover:bg-purple-800 text-white font-medium'
-          onClick={handleGenerateQuiz}
-          loading={loading}
-        >
-          Generate
-        </Button>
-      </div>
-
       <Tab.Group as='div' className='w-full'>
-        <Tab.List className='w-full flex justify-end items-center gap-2 mb-2'>
-          {tabs.map((tab, index) => (
-            <OutputTab key={index} selected={selectedTab === index} onClick={() => setSelectedTab(index)}>
-              {tab}
-            </OutputTab>
-          ))}
-        </Tab.List>
+
+        <div className='w-full flex justify-between items-center mb-2'>
+
+          <Tab.List className='w-full flex justify-start items-center gap-2'>
+            {tabs.map((tab, index) => (
+              <OutputTab key={index} selected={selectedTab === index} onClick={() => setSelectedTab(index)}>
+                {tab}
+              </OutputTab>
+            ))}
+          </Tab.List>
+
+          <Button
+            color='bg-purple-700 hover:bg-purple-800 text-white font-medium'
+            onClick={handleGenerateQuiz}
+            loading={loading}
+          >
+            Generate
+          </Button>
+
+        </div>
+
         <Tab.Panels>
           <Tab.Panel>
             <TextArea

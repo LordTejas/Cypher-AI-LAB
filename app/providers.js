@@ -1,10 +1,15 @@
-"use client";
+"use client"
 
 import { SessionProvider } from "next-auth/react";
-import React from "react";
+import { SnackbarProvider } from "notistack";
 
 function Providers({ children }) {
-  return <SessionProvider>{children}</SessionProvider>;
+
+  return <SnackbarProvider>
+    <SessionProvider>
+      {children}
+    </SessionProvider>
+  </SnackbarProvider>
 }
 
 export default Providers;

@@ -24,7 +24,13 @@ const SideBar = () => {
       color: 'text-purple-500'
     },
     {
-      name: 'Correct Grammer',
+      name: 'Summarize AI',
+      icon: BookA,
+      path: '/summarize',
+      color: 'text-amber-700'
+    },
+    {
+      name: 'Grammer AI',
       icon: BookA,
       path: '/grammer',
       color: 'text-yellow-500'

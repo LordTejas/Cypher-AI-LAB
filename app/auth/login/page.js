@@ -3,10 +3,12 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from "@/actions/login";
+import { useSnackbar } from 'notistack';
 
 export default function LoginPage() {
 
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleLogin = async (e) => {
     try {
@@ -18,11 +20,14 @@ export default function LoginPage() {
       // Login user
       const redirectUrl = await login(formData);
 
+      // Show success message
+      enqueueSnackbar('Logged in successfully!', { variant: 'success' });
+
       // Redirect to home page
       router.push(redirectUrl);
     } catch (error) {
       console.error(error.message);
-      alert('An error occurred while logging in');
+      enqueueSnackbar('Login failed!', { variant: 'error' });
     }
   }
 

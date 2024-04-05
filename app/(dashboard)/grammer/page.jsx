@@ -5,11 +5,13 @@ import { Listbox, Transition } from '@headlessui/react'
 import TextArea from '@/app/_components/TextArea'
 import { ChevronsUpDown, Check } from 'lucide-react'
 import Button from '@/app/_components/Button'
+import { useSnackbar } from 'notistack'
 
 import { correctGrammar } from '@/actions/grammar'
 
 const Page = () => {
 
+  const { enqueueSnackbar } = useSnackbar()
   const [data, setData] = useState({
     textInput: '',
     textOutput: '',
@@ -45,6 +47,7 @@ const Page = () => {
       localStorage.setItem('grammerTextOutput', res)
     } catch (error) {
       console.error(error)
+      enqueueSnackbar('Something went wrong!', { variant: 'error' })
     } finally {
       setLoading(false)
     }
@@ -64,6 +67,8 @@ const Page = () => {
           textInput: grammerTextInput,
           textOutput: grammerTextOutput
         })
+
+        enqueueSnackbar('Previous result loaded!', { variant: 'info' })
       }
     }
 
@@ -138,12 +143,11 @@ const Page = () => {
 
       <TextArea
         type='text'
-        rows={10}
+        rows={15}
         placeholder='Result will be displayed here...'
         value={data?.textOutput}
         readOnly
       />
-
 
     </main>
   )

@@ -3,10 +3,12 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { register } from '@/actions/register';
+import { useSnackbar } from 'notistack';
 
 export default function RegisterPage() {
 
   const router = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -14,10 +16,10 @@ export default function RegisterPage() {
     const response = await register(formData);
 
     if (response) {
-      alert("Successfully registered! Please login to continue.");
+      enqueueSnackbar('User Created Successfully!', { variant: 'success' });
       router.push('/auth/login');
     } else {
-      alert("Failed to Create User!");
+      enqueueSnackbar('User Creation Failed!', { variant: 'error' });
     }
   }
 

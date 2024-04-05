@@ -3,9 +3,11 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SideBar from "@/app/_components/SideBar/SideBar";
+import { useSnackbar } from "notistack";
 
 export default function Layout({ children }) {
 
+  const { enqueueSnackbar } = useSnackbar();
   const router = useRouter()
   const { data: session, status } = useSession()
 
@@ -21,7 +23,7 @@ export default function Layout({ children }) {
 
   // If no session exists, display access denied message
   if (status === "unauthenticated") {
-    alert("Please Login to continue.")
+    enqueueSnackbar("Access Denied! Please login to continue.", { variant: "error" })
     router.push("/auth/login")
   }
 

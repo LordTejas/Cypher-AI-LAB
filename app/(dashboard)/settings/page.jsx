@@ -6,10 +6,11 @@ import { useSettingsStore } from '@/app/_zustand/settings.zustand'
 import { getUserByEmail, updateUserByEmail } from '@/actions/users'
 import Input from '@/app/_components/Input'
 import Button from '@/app/_components/Button'
-
+import { useSnackbar } from 'notistack'
 
 const Page = () => {
 
+  const { enqueueSnackbar } = useSnackbar()
   const [loading, setLoading] = useState(false)
   const { data: session, status } = useSession()
 
@@ -57,9 +58,12 @@ const Page = () => {
 
       const newUser = await updateUserByEmail(data)
       setProfile(newUser)
-      alert('Profile updated successfully!')
+
+      enqueueSnackbar('Profile updated successfully!', { variant: 'success' })
+
     } catch (error) {
       console.error(error.message)
+      enqueueSnackbar('Profile update failed!', { variant: 'error' })
     } finally {
       setLoading(false)
     }
